@@ -6,13 +6,14 @@ import java.util.Arrays;
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     private int countResume = 0;
-    private int i = 0;
+
+    private int size;
 
     void clear() {
-        while (storage[i] != null) {
+        for (int i = 0; i < size; i++) {
             storage[i] = null;
-            i++;
         }
+        countResume = 0;
     }
 
     void save(Resume r) {
@@ -21,25 +22,21 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        while (storage[i] != null) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString() == uuid) {
                 return storage[i];
             }
-            i++;
         }
-        Resume error = new Resume();
-        error.uuid = "dummy";
-        return error;
+        return null;
     }
 
     void delete(String uuid) {
-        while (storage[i] != null) {
-            if (storage[i].toString() == uuid) {
+        for (int i = 0; i < size; i++) {
+            if (uuid == storage[i].toString()) {
+                countResume--;
                 System.arraycopy(storage, i + 1, storage, i, countResume);
             }
-            i++;
         }
-        countResume--;
     }
 
     /**
@@ -50,11 +47,7 @@ public class ArrayStorage {
     }
 
     int size() {
-        for (i = 0; i < storage.length; i++) {
-            if (storage[i] == null) {
-                break;
-            }
-        }
-        return i;
+        size = countResume;
+        return size;
     }
 }
