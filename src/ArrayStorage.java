@@ -7,10 +7,8 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     private int countResume = 0;
 
-    private int size;
-
     void clear() {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < countResume; i++) {
             storage[i] = null;
         }
         countResume = 0;
@@ -22,7 +20,7 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < countResume; i++) {
             if (storage[i].toString() == uuid) {
                 return storage[i];
             }
@@ -31,10 +29,10 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < countResume; i++) {
             if (uuid == storage[i].toString()) {
                 countResume--;
-                System.arraycopy(storage, i + 1, storage, i, countResume);
+                System.arraycopy(storage, i + 1, storage, i, 3);
             }
         }
     }
@@ -47,7 +45,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        size = countResume;
-        return size;
+        return countResume;
     }
 }
