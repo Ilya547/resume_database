@@ -3,9 +3,6 @@ package webapp;
 import webapp.model.Resume;
 import webapp.storage.ArrayStorage;
 
-/**
- * Test for your webapp.storage.ArrayStorage implementation
- */
 public class MainTestArrayStorage {
     static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
 

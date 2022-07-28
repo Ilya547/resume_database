@@ -4,11 +4,9 @@ import webapp.model.Resume;
 
 import java.util.Arrays;
 
-/**
- * Array based storage for Resumes
- */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    private static final int STORAGE_LIMIT = 10000;
+    final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int countResume = 0;
 
     public void clear() {
@@ -17,62 +15,46 @@ public class ArrayStorage {
     }
 
     public void update(Resume r, String s) {
-        if (checkPresent(r.getUuid())) {
-            for (int i = 0; i < countResume; i++) {
-                if (storage[i].getUuid() == r.getUuid()) {
-                    r.setUuid(s);
-                    break;
-                }
-            }
-        } else {
+        try {
+            int index = findIndex(r.getUuid());
+            storage[index].setUuid(s);
+        } catch (NumberFormatException e) {
             System.out.println("Error. " + r.getUuid() + "is missing.");
         }
-
     }
 
     public void save(Resume r) {
-        if (countResume <= storage.length) {
-            if (!checkPresent(r.getUuid())) {
-                storage[countResume] = r;
-                countResume++;
-            } else {
-                System.out.println("Error. " + r.getUuid() + " was saved earlier.");
-            }
-        } else {
+        int index = findIndex(r.getUuid());
+        if (countResume > storage.length) {
             System.out.println("Error. " + r.getUuid() + " not saved due to lack of free space.");
+        } else if (index > 0) {
+            System.out.println("Error. " + r.getUuid() + " was saved earlier.");
+        } else {
+            storage[countResume] = r;
+            countResume++;
         }
-
     }
 
     public Resume get(String uuid) {
-        if (checkPresent(uuid)) {
-            for (int i = 0; i < countResume; i++) {
-                if (storage[i].toString() == uuid) {
-                    return storage[i];
-                }
-            }
-        } else {
+        try {
+            int index = findIndex(uuid);
+            return storage[index];
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Error. " + uuid + " is missing.");
         }
         return null;
     }
 
     public void delete(String uuid) {
-        if (checkPresent(uuid)) {
-            for (int i = 0; i < countResume; i++) {
-                if (uuid == storage[i].toString()) {
-                    countResume--;
-                    System.arraycopy(storage, i + 1, storage, i, countResume - i);
-                }
-            }
-        } else {
-            System.out.println("Error. " + uuid + "is missing.");
+        try {
+            int index = findIndex(uuid);
+            countResume--;
+            System.arraycopy(storage, index + 1, storage, index, countResume);
+        } catch (NumberFormatException e) {
+            System.out.println("Error. " + uuid + " is missing.");
         }
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     public Resume[] getAll() {
         return Arrays.copyOf(storage, countResume);
     }
@@ -81,12 +63,12 @@ public class ArrayStorage {
         return countResume;
     }
 
-    private boolean checkPresent(String uuid) {
+    private int findIndex(String uuid) {
         for (int i = 0; i < countResume; i++) {
-            if (uuid == storage[i].toString()) {
-                return true;
+            if (storage[i].toString().equals(uuid)) {
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 }

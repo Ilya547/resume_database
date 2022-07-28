@@ -1,11 +1,6 @@
 package webapp.model;
 
-/**
- * Initial resume class
- */
 public class Resume {
-
-    // Unique identifier
     private String uuid;
 
     public String getUuid() {
