@@ -3,29 +3,31 @@ package webapp.storage;
 import webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ArrayStorage {
     private static final int STORAGE_LIMIT = 10000;
-    final Resume[] storage = new Resume[STORAGE_LIMIT];
+    public final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int countResume = 0;
 
     public void clear() {
-        Arrays.fill(storage, 0, countResume + 1, null);
+        Arrays.fill(storage, 0, countResume, null);
         countResume = 0;
     }
 
-    public void update(Resume r, String s) {
-        try {
-            int index = findIndex(r.getUuid());
-            storage[index].setUuid(s);
-        } catch (NumberFormatException e) {
-            System.out.println("Error. " + r.getUuid() + "is missing.");
+     public void update(Resume rBefore, Resume rAfter) {
+        int index = findIndex(rBefore.getUuid());
+        if (index < 0) {
+            System.out.println("Error. " + rBefore.getUuid() + "is missing.");
+        } else {
+            storage[index] = rAfter;
         }
     }
 
     public void save(Resume r) {
         int index = findIndex(r.getUuid());
-        if (countResume > storage.length) {
+        if (countResume >= storage.length) {
             System.out.println("Error. " + r.getUuid() + " not saved due to lack of free space.");
         } else if (index > 0) {
             System.out.println("Error. " + r.getUuid() + " was saved earlier.");
@@ -36,22 +38,25 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        try {
-            int index = findIndex(uuid);
-            return storage[index];
-        } catch (ArrayIndexOutOfBoundsException e) {
+        int index = findIndex(uuid);
+        if (index < 0) {
             System.out.println("Error. " + uuid + " is missing.");
+            return null;
+        } else {
+            return storage[index];
         }
-        return null;
     }
 
     public void delete(String uuid) {
-        try {
-            int index = findIndex(uuid);
-            countResume--;
-            System.arraycopy(storage, index + 1, storage, index, countResume);
-        } catch (NumberFormatException e) {
+        int index = findIndex(uuid);
+        if (index < 0) {
             System.out.println("Error. " + uuid + " is missing.");
+        } else {
+            countResume--;
+            List<Resume> list = Arrays.asList(storage);
+            LinkedList<Resume> linkedList = new LinkedList<>(list);
+            linkedList.remove(index);
+            linkedList.toArray(storage);
         }
     }
 
