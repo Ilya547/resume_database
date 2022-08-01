@@ -3,8 +3,6 @@ package webapp.storage;
 import webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ArrayStorage {
     private static final int STORAGE_LIMIT = 10000;
@@ -16,12 +14,12 @@ public class ArrayStorage {
         countResume = 0;
     }
 
-     public void update(Resume rBefore, Resume rAfter) {
-        int index = findIndex(rBefore.getUuid());
+     public void update(Resume r) {
+        int index = findIndex(r.getUuid());
         if (index < 0) {
-            System.out.println("Error. " + rBefore.getUuid() + "is missing.");
+            System.out.println("Error. " + r.getUuid() + "is missing.");
         } else {
-            storage[index] = rAfter;
+            storage[index] = r;
         }
     }
 
@@ -52,11 +50,9 @@ public class ArrayStorage {
         if (index < 0) {
             System.out.println("Error. " + uuid + " is missing.");
         } else {
+            storage[index] = storage[countResume - 1];
+            storage[countResume - 1] = null;
             countResume--;
-            List<Resume> list = Arrays.asList(storage);
-            LinkedList<Resume> linkedList = new LinkedList<>(list);
-            linkedList.remove(index);
-            linkedList.toArray(storage);
         }
     }
 
