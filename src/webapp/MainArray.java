@@ -1,14 +1,15 @@
 package webapp;
 
 import webapp.model.Resume;
-import webapp.storage.ArrayStorage;
+import webapp.storage.SortedArrayStorage;
+import webapp.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class MainArray {
-    private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    private final static Storage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -33,7 +34,7 @@ public class MainArray {
                     break;
                 case "save":
                     r = new Resume();
-                    r.setUuid("uuid");
+                    r.setUuid(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
@@ -70,3 +71,6 @@ public class MainArray {
         System.out.println("----------------------------");
     }
 }
+//    В строке 38 поменяй "uuid" на uuid (переменную)
+//        В строке 13 тип переменной поменяй с ArrayStorage на Storage, а тип реализации на new SortedArrayStorage
+//        После запуска вылетит ClassCastException при попытке работать с хранилищем - это значит, что для бинарного поиска нужно либо в резюме добавить поддержку Comparable<Resume>, либо передавать какой-то компаратор при бинарном поиске. Это на твоё усмотрение. Если через компаратор, то можно сделать вот так:
