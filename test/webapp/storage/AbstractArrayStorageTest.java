@@ -19,12 +19,12 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID_4 = "uuid4";
     private static final String UUID_NOT_EXIST_OR_EXIST = "dummy";
 
-    public static final Resume RESUME_1 = new Resume(UUID_1);
-    public static final Resume RESUME_2 = new Resume(UUID_2);
-    public static final Resume RESUME_3 = new Resume(UUID_3);
-    public static final Resume RESUME_4 = new Resume(UUID_4);
+    private static final Resume RESUME_1 = new Resume(UUID_1);
+    private static final Resume RESUME_2 = new Resume(UUID_2);
+    private static final Resume RESUME_3 = new Resume(UUID_3);
+    private static final Resume RESUME_4 = new Resume(UUID_4);
 
-    public AbstractArrayStorageTest(Storage storage) {
+    protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
