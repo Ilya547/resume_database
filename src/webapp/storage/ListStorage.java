@@ -8,13 +8,39 @@ import java.util.List;
 public class ListStorage extends AbstractStorage {
     private final List<Resume> list = new ArrayList<>();
 
-    private Integer convertUUIDToIndex(String uuid) {
+    @Override
+    protected void doUpdate(Resume r, Object searchKey) {
+        list.set((Integer) searchKey, r);
+    }
+
+    @Override
+    protected void doSave(Resume r, Object searchKey) {
+        list.add(r);
+    }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
+    }
+
+    @Override
+    protected Resume doGet(Object searchKey) {
+        return list.get((Integer) searchKey);
+    }
+
+    @Override
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getUuid().equals(uuid)){
+            if (list.get(i).getUuid().equals(uuid)) {
                 return i;
             }
         }
         return null;
+    }
+
+    @Override
+    protected void doDelete(Object searchKey) {
+        list.remove(((Integer) searchKey).intValue());
     }
 
     @Override
@@ -23,28 +49,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void update(Resume r) {
-        list.set(convertUUIDToIndex(r.getUuid()), r);
-    }
-
-    @Override
-    public void save(Resume r) {
-        list.add(r);
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        return list.get(convertUUIDToIndex(uuid));
-    }
-
-    @Override
-    public void delete(String uuid) {
-        list.remove(convertUUIDToIndex(uuid));
-    }
-
-    @Override
     public Resume[] getAll() {
-        return (Resume[]) list.toArray();
+        return list.toArray(new Resume[list.size()]);
     }
 
     @Override

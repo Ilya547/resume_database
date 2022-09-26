@@ -1,7 +1,5 @@
 package webapp.storage;
 
-import webapp.exception.ExistStorageException;
-import webapp.exception.NotExistStorageException;
 import webapp.exception.StorageException;
 import webapp.model.Resume;
 
@@ -17,36 +15,31 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         countResume = 0;
     }
 
-    public final void update(Resume r) {
-        int index = findIndex(r.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        } else {
-            storage[index] = r;
-        }
+    @Override
+    protected void doUpdate(Resume r, Object index) {
+        storage[(Integer) index] = r;
     }
 
-    public final void save(Resume r) {
-        int index = findIndex(r.getUuid());
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
+    }
+
+    @Override
+    protected void doSave(Resume r, Object index) {
         if (countResume >= storage.length) {
             throw new StorageException("Storage overflow ", r.getUuid());
-        } else if (index > 0) {
-            throw new ExistStorageException(r.getUuid());
         } else {
-            insert(r, index);
+            insert(r, (Integer) index);
             countResume++;
         }
     }
 
-    public final void delete(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            remove(index);
-            storage[countResume - 1] = null;
-            countResume--;
-        }
+    @Override
+    protected void doDelete(Object index) {
+        remove((Integer) index);
+        storage[countResume - 1] = null;
+        countResume--;
     }
 
     public Resume[] getAll() {
@@ -57,15 +50,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return countResume;
     }
 
-    public final Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage[index];
+    @Override
+    protected Resume doGet(Object index) {
+        return storage[(Integer) index];
     }
 
-    protected abstract int findIndex(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 
     protected abstract void insert(Resume r, int index);
 
