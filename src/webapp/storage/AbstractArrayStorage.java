@@ -30,14 +30,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (countResume >= storage.length) {
             throw new StorageException("Storage overflow ", r.getUuid());
         } else {
-            insert(r, (Integer) index);
+            insertResume(r, (Integer) index);
             countResume++;
         }
     }
 
     @Override
     protected void doDelete(Object index) {
-        remove((Integer) index);
+        removeResume((Integer) index);
         storage[countResume - 1] = null;
         countResume--;
     }
@@ -57,7 +57,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract Integer getSearchKey(String uuid);
 
-    protected abstract void insert(Resume r, int index);
+    protected abstract void insertResume(Resume r, int index);
 
-    protected abstract void remove(int index);
+    protected abstract void removeResume(int index);
 }
