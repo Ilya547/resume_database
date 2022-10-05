@@ -3,19 +3,21 @@ package webapp.storage;
 import webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
-    private final List<Resume> list = new ArrayList<>();
+public class MapResumeStorage extends AbstractStorage {
+    private final Map<String, Resume> map = new HashMap<>();
 
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        list.set((Integer) searchKey, r);
+        map.put(r.getUuid(), r);
     }
 
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        list.add(r);
+        map.put(r.getUuid(), r);
     }
 
     @Override
@@ -25,36 +27,31 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return list.get((Integer) searchKey);
+        return map.get(searchKey);
     }
 
     @Override
-    protected Integer getSearchKey(String uuid) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getUuid().equals(uuid)) {
-                return i;
-            }
-        }
-        return null;
+    protected Resume getSearchKey(String uuid) {
+        return map.get(uuid);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        list.remove(((Integer) searchKey).intValue());
+        map.remove(searchKey.toString());
     }
 
     @Override
     public void clear() {
-        list.clear();
+        map.clear();
     }
 
     @Override
     public List<Resume> doCopyAll() {
-        return new ArrayList<>(list);
+        return new ArrayList<>(map.values());
     }
 
     @Override
     public int size() {
-        return list.size();
+        return map.size();
     }
 }
