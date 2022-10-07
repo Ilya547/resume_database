@@ -27,7 +27,7 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return map.get(searchKey);
+        return (Resume) searchKey;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object searchKey) {
-        map.remove(searchKey.toString());
+        map.remove(searchKey);
     }
 
     @Override

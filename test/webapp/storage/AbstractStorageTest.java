@@ -41,9 +41,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void clear() {
         storage.clear();
-        Resume[] emptyArray = new Resume[storage.size()];
         assertSize(0);
-//        assertArrayEquals(storage.getAll(), emptyArray);
     }
 
     @Test
@@ -65,7 +63,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void delete() throws NotExistStorageException {
+        System.out.println("SIZE = " + storage.size());
         storage.delete(UUID_1);
+        System.out.println("SIZE = " + storage.size());
         assertAll(
                 () -> assertSize(2),
                 () -> assertThrows(NotExistStorageException.class, () -> storage.get(UUID_1)));
