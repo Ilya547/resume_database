@@ -1,8 +1,8 @@
 package webapp.storage;
 
-class MapResumeStorageTest extends AbstractStorageTest {
+public class MapResumeStorageTest extends AbstractStorageTest {
 
-    protected MapResumeStorageTest() {
+    public MapResumeStorageTest() {
         super(new MapResumeStorage());
     }
 }

@@ -1,8 +1,8 @@
 package webapp.storage;
 
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
 import webapp.model.Resume;
@@ -30,7 +30,7 @@ public abstract class AbstractStorageTest {
         this.storage = storage;
     }
 
-    @BeforeEach
+    @Before
     public void setUp() {
         storage.clear();
         storage.save(RESUME_1);
@@ -63,21 +63,18 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void delete() throws NotExistStorageException {
-        System.out.println("SIZE = " + storage.size());
         storage.delete(UUID_1);
-        System.out.println("SIZE = " + storage.size());
         assertAll(
                 () -> assertSize(2),
                 () -> assertThrows(NotExistStorageException.class, () -> storage.get(UUID_1)));
     }
 
     @Test
-    public Resume[] getAllSorted() {
+    public void getAllSorted() {
         List<Resume> expectedList = storage.getAllSorted();
         assertAll(
                 () -> assertEquals(expectedList, Arrays.asList(RESUME_1, RESUME_2, RESUME_3)),
                 () -> assertSize(3));
-        return null;
     }
 
     @Test
