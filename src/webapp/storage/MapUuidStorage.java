@@ -19,12 +19,12 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return map.containsKey(searchKey);
+        return map.containsKey((String) searchKey);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return map.get(searchKey);
+        return map.get((String) searchKey);
     }
 
     @Override
