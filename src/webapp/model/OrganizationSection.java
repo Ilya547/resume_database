@@ -1,14 +1,14 @@
 package webapp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class OrganizationSection extends AbstractSection {
-    private final List<Organization> organizations;
+    private final List<Organization> organizations = new ArrayList<>();
 
     public OrganizationSection(List<Organization> organizations) {
         Objects.requireNonNull(organizations, " organizations must be not null");
-        this.organizations = organizations;
     }
 
     public List<Organization> getOrganizations() {
