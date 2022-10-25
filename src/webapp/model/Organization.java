@@ -1,6 +1,7 @@
 package webapp.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +11,10 @@ public class Organization {
 
     public Organization(Link homePage, List<Period> periods) {
         this.homePage = homePage;
+    }
+
+    public Organization(String name, String url, Period... Periods) {
+        this(new Link(name, url), Arrays.asList(Periods));
     }
 
     public List<Period> getPERIODS() {
