@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
-    private File directory;
+    private final File directory;
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "directory must not be null");
@@ -43,8 +43,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
-    protected abstract void doWrite(Resume r, File file) throws IOException;
-
     @Override
     protected boolean isExist(File file) {
         return file.exists();
@@ -58,8 +56,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new StorageException("File is not read", file.getName(), e);
         }
     }
-
-    protected abstract Resume doRead(File file) throws IOException;
 
     @Override
     protected File getSearchKey(String uuid) {
@@ -89,14 +85,21 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory read error", null);
+        }
         for (File file : files) {
             file.delete();
         }
-
     }
 
     @Override
     public int size() {
         return Objects.requireNonNull(directory.list()).length;
     }
+
+    protected abstract Resume doRead(File file) throws IOException;
+
+    protected abstract void doWrite(Resume r, File file) throws IOException;
+
 }
