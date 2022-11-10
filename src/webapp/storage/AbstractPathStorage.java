@@ -95,11 +95,11 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-        java.lang.String[] list = directory.toFile().list();
-        if (list == null) {
+        try {
+            return (int) Files.size(directory);
+        } catch (IOException e) {
             throw new StorageException("Directory read error", null);
         }
-        return list.length;
     }
 
     protected abstract Resume doRead(InputStream is) throws IOException;
