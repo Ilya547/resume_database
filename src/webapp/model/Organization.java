@@ -1,23 +1,25 @@
 package webapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class Organization {
-    private final List<Period> periods = new ArrayList<>();
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private final List<Position> periods = new ArrayList<>();
     private final Link homePage;
 
-    public Organization(Link homePage, List<Period> periods) {
+    public Organization(Link homePage, List<Position> periods) {
         this.homePage = homePage;
     }
 
-    public Organization(String name, String url, Period... Periods) {
+    public Organization(String name, String url, Position... Periods) {
         this(new Link(name, url), Arrays.asList(Periods));
     }
 
-    public List<Period> getPERIODS() {
+    public List<Position> getPERIODS() {
         return periods;
     }
 

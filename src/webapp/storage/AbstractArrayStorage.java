@@ -31,7 +31,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         if (countResume >= storage.length) {
             throw new StorageException("Storage overflow ", r.getUuid());
         } else {
-            insertResume(r, (Integer) index);
+            insertResume(r, index);
             countResume++;
         }
     }

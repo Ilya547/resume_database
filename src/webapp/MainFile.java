@@ -25,7 +25,7 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("\nDirectory and file:");
+        System.out.println("\nProject structure");
         outputDirectory(dir);
     }
 
@@ -34,7 +34,7 @@ public class MainFile {
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
-                    System.out.println("File : " + file.getName() );
+                    System.out.println("     File : " + file.getName() );
                 } else if (file.isDirectory()) {
                     System.out.println("Directory : " + file.getName() );
                     outputDirectory(file);
