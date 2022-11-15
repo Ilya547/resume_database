@@ -9,25 +9,8 @@ public  class ResumeTestData extends AbstractStorageTest {
         super(storage);
     }
 
-//    static final Resume RESUME = new Resume(UUID_1, "Name1");
-//    static final Resume RESUME_2 = new Resume(UUID_2, "Name2");
-//    static final Resume RESUME_3 = new Resume(UUID_3, "Name3");
-//    static final Resume RESUME_4 = new Resume(UUID_4, "Name4");
-
-
-
-//        RESUME = new Resume(UUID_1, "Name1");
-//        RESUME_2 = new Resume(UUID_2, "Name2");
-//        RESUME_3 = new Resume(UUID_3, "Name3");
-//        RESUME_4 = new Resume(UUID_4, "Name4");
-
-
     public static Resume fillResume(String uuid, String fullName) {
-
         Resume RESUME = new Resume(uuid, fullName);
-//        RESUME_2 = new Resume(UUID_2, "Name2");
-//        RESUME_3 = new Resume(UUID_3, "Name3");
-//        RESUME_4 = new Resume(UUID_4, "Name4");
 
         RESUME.addContact(ContactType.EMAIL, "mail1@ya.ru");
         RESUME.addContact(ContactType.PHONENUMBER, "11111");
@@ -46,7 +29,6 @@ public  class ResumeTestData extends AbstractStorageTest {
                                 new Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
                                 new Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT facultet")),
                         new Organization("Organization12", "http://Organization12.ru")));
-//        RESUME_2.addContact(ContactType.PHONENUMBER, "22222");
         RESUME.addSection(SectionType.EXPERIENCE,
                 new OrganizationSection(
                         new Organization("Organization2", "http://Organization2.ru",
@@ -55,21 +37,14 @@ public  class ResumeTestData extends AbstractStorageTest {
     }
 
 
-//    static final String UUID_1 = "uuid1";
-//    static final String UUID_2 = "uuid2";
-//    static final String UUID_3 = "uuid3";
-//    static final String UUID_4 = "uuid4";
-//    protected static final String UUID_NOT_EXIST_OR_EXIST = "dummy";
-//
-//
-//    final Resume RESUME = new Resume(UUID_1, "Name_1" );
-//    final Resume RESUME_2 = new Resume(UUID_2, "Name_2");
-//    final Resume RESUME_3 = new Resume(UUID_3, "Name_3");
-//    final Resume RESUME_4 = new Resume(UUID_4, "Name_4");
-//
-//
-//
-//
+
+
+
+
+
+
+
+
 //    public void fill(String uuid, String fullName) {
 //
 //        RESUME.addContact(ContactType.PHONENUMBER, "89063477954");
