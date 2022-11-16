@@ -3,9 +3,7 @@ package webapp.storage;
 import webapp.exception.StorageException;
 import webapp.model.Resume;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,7 +26,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path dir) {
         try {
-            doWrite(r, (OutputStream) dir);
+            doWrite(r, new BufferedOutputStream(Files.newOutputStream(dir)));
         } catch (IOException e) {
             throw new StorageException("Path is not update", getFileName(dir), e);
         }
@@ -52,7 +50,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path dir) {
         try {
-            return doRead((InputStream) dir);
+            return doRead(new BufferedInputStream(Files.newInputStream(dir)));
         } catch (IOException e) {
             throw new StorageException("Path is not read", getFileName(dir), e);
         }
