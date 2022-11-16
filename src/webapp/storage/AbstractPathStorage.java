@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     private final Path directory;
@@ -73,29 +74,17 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> doCopyAll() {
-        try {
-            return Files.list(directory).map(directory -> doGet(directory)).collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", getFileName(directory), e);
-        }
+        return getFilesList().map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", e);
-        }
+        getFilesList().forEach(this::doDelete);
     }
 
     @Override
     public int size() {
-        try {
-            return (int) Files.size(directory);
-        } catch (IOException e) {
-            throw new StorageException("Directory read error", e);
-        }
+        return (int) getFilesList().count();
     }
 
     protected abstract Resume doRead(InputStream is) throws IOException;
@@ -104,5 +93,13 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
 
     private String getFileName(Path dir) {
         return dir.getFileName().toString();
+    }
+
+    private Stream<Path> getFilesList() {
+        try {
+            return Files.list(directory);
+        } catch (IOException e) {
+            throw new StorageException("Directory read error", e);
+        }
     }
 }
