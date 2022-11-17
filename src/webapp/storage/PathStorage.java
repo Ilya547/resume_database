@@ -3,7 +3,9 @@ package webapp.storage;
 import webapp.exception.StorageException;
 import webapp.model.Resume;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,12 +14,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
-    private final Path directory;
+public class PathStorage extends AbstractStorage<Path> {
+    private Path directory;
+    private SerializationStrategy serializationStrategy;
 
-    protected AbstractPathStorage(String dir) {
+    protected PathStorage(String dir, SerializationStrategy serializationStrategy) {
+        Objects.requireNonNull(dir, "directory must not be null");
+        this.serializationStrategy = serializationStrategy;
         directory = Paths.get(dir);
-        Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + "is not a directory");
         }
@@ -26,7 +30,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path dir) {
         try {
-            doWrite(r, new BufferedOutputStream(Files.newOutputStream(dir)));
+            serializationStrategy.doWrite(r, new BufferedOutputStream(Files.newOutputStream(dir)));
         } catch (IOException e) {
             throw new StorageException("Path is not update", getFileName(dir), e);
         }
@@ -50,7 +54,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path dir) {
         try {
-            return doRead(new BufferedInputStream(Files.newInputStream(dir)));
+            return serializationStrategy.doRead(new BufferedInputStream(Files.newInputStream(dir)));
         } catch (IOException e) {
             throw new StorageException("Path is not read", getFileName(dir), e);
         }
@@ -84,10 +88,6 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     public int size() {
         return (int) getFilesList().count();
     }
-
-    protected abstract Resume doRead(InputStream is) throws IOException;
-
-    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
 
     private String getFileName(Path dir) {
         return dir.getFileName().toString();
