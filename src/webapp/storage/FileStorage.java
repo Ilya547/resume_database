@@ -2,6 +2,7 @@ package webapp.storage;
 
 import webapp.exception.StorageException;
 import webapp.model.Resume;
+import webapp.storage.Serialization.SerializationStrategy;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,8 +11,8 @@ import java.util.Objects;
 
 public class FileStorage extends AbstractStorage<File> {
 
-    private File directory;
-    private SerializationStrategy serializationStrategy;
+    private final File directory;
+    private final SerializationStrategy serializationStrategy;
 
     protected FileStorage(File directory, SerializationStrategy serializationStrategy) {
         Objects.requireNonNull(directory, "directory must not be null");
@@ -72,7 +73,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> doCopyAll() {
-        List<Resume> list = new ArrayList<>(getDirectoryListFiles().length);
+        List<Resume> list = new ArrayList<>();
         for (File file : getDirectoryListFiles()) {
             list.add(doGet(file));
         }
