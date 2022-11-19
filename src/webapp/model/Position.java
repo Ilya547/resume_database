@@ -11,10 +11,10 @@ import java.util.Objects;
 import static webapp.util.DateUtil.of;
 
 public class Position implements Serializable {
-    private final LocalDate startDate;
-    private final LocalDate endDate;
-    private final String title;
-    private final String description;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String title;
+    private String description;
 
     public Position(LocalDate startDate, LocalDate endDate, String title, String description) {
         Objects.requireNonNull(startDate, " startDate must not be null");
@@ -24,6 +24,9 @@ public class Position implements Serializable {
         this.endDate = endDate;
         this.title = title;
         this.description = description;
+    }
+
+    public Position() {
     }
 
     public Position(int startYear, Month startMonth, String title, String description) {
