@@ -13,6 +13,15 @@ import static webapp.util.DateUtil.of;
 public class Position implements Serializable {
     private LocalDate startDate;
     private LocalDate endDate;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     private String title;
     private String description;
 
@@ -23,7 +32,11 @@ public class Position implements Serializable {
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
-        this.description = description;
+        this.description = description == null ? "" : description;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
     public Position() {
@@ -58,5 +71,9 @@ public class Position implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(startDate, endDate, title, description);
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
     }
 }
