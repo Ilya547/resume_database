@@ -6,8 +6,8 @@ public class MainDeadlock {
         Object object2 = new Object();
 
         Thread thread1 = new Thread(() -> {
+            ThreadState(Thread.currentThread());
             synchronized (object1) {
-                System.out.println(Thread.currentThread().getName() + " start");
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -16,18 +16,22 @@ public class MainDeadlock {
                 synchronized (object2) {
                 }
             }
-            System.out.println(Thread.currentThread().getName() + " end");
+            ThreadState(Thread.currentThread());
         }, "Thread1");
+
         Thread thread2 = new Thread(() -> {
-            System.out.println(Thread.currentThread().getName() + " start");
+            ThreadState(Thread.currentThread());
             synchronized (object2) {
                 synchronized (object1) {
                 }
             }
-            System.out.println(Thread.currentThread().getName() + " end");
+            ThreadState(Thread.currentThread());
         }, "Thread2");
-
         thread1.start();
         thread2.start();
+    }
+
+    private static void ThreadState(Thread thread) {
+        System.out.println(thread.getName() + " is " + thread.getState());
     }
 }
