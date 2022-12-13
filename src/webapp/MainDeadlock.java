@@ -2,42 +2,30 @@ package webapp;
 
 public class MainDeadlock {
     public static void main(String[] args) {
-        Object object1 = new Object();
-        Object object2 = new Object();
-        class MyThread extends Thread {
-            @Override
-            public void run() {
-                synchronized (object1) {
-                    threadState(Thread.currentThread());
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    synchronized (object2) {
-                        threadState(Thread.currentThread());
-                    }
-                }
-            }
-        }
+        Object lock1 = new Object();
+        Object lock2 = new Object();
 
-        synchronized (object2) {
-            threadState(Thread.currentThread());
-            Thread thread = new MyThread();
-            thread.start();
-            try {
-                Thread.sleep(1111);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            synchronized (object1){
-                threadState(Thread.currentThread());
-
-            }
-        }
+        deadlockMethod(lock1, lock2, "Thread1").start();
+        deadlockMethod(lock2, lock1, "Thread2").start();
     }
 
     private static void threadState(Thread thread) {
         System.out.println(thread.getName() + " is " + thread.getState());
+    }
+
+    private static Thread deadlockMethod(Object lock1, Object lock2, String name) {
+        return new Thread(() -> {
+            synchronized (lock1) {
+                threadState(Thread.currentThread());
+                try {
+                    Thread.sleep(111);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                synchronized (lock2) {
+                    threadState(Thread.currentThread());
+                }
+            }
+        }, name);
     }
 }
