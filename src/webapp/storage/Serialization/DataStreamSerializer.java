@@ -50,12 +50,6 @@ public class DataStreamSerializer implements SerializationStrategy {
                         break;
                 }
             });
-
-//            dos.writeInt(contacts.size());
-//            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
-//                dos.writeUTF(entry.getKey().name());
-//                dos.writeUTF(entry.getValue());
-//            }
         }
     }
 

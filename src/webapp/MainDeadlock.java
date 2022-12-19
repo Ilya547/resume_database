@@ -1,5 +1,8 @@
 package webapp;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class MainDeadlock {
     public static void main(String[] args) {
         Object lock1 = new Object();
@@ -8,6 +11,7 @@ public class MainDeadlock {
         deadlockMethod(lock1, lock2, "Thread1").start();
         deadlockMethod(lock2, lock1, "Thread2").start();
     }
+    private Lock lock = new ReentrantLock();
 
     private static void threadState(Thread thread) {
         System.out.println(thread.getName() + " is " + thread.getState());
