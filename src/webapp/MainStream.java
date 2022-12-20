@@ -16,22 +16,37 @@ public class MainStream {
         listNumbers.add(2);
         listNumbers.add(3);
 
-        minValue(values);
-        System.out.println("\nmethod oddOrEven execution : " + oddOrEven(listNumbers));
+        System.out.println("method minValue execution : " + minValue(values));
+        System.out.println("method oddOrEven execution : " + oddOrEven(listNumbers));
 
     }
 
-    private static void minValue(int[] values) {
+    private static int minValue(int[] values) {
         if (values.length < 10) {
-            Arrays.stream(values).
-                    sorted().distinct().forEach(System.out::print);
+            int[] newArr = Arrays.stream(values).sorted().distinct().toArray();
+            return concatNums(newArr);
         }
         System.err.println("The number of digits cannot exceed 9.");
+        return 0;
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
         Map<Boolean, List<Integer>> map = integers.stream()
                 .collect(partitioningBy(x -> x % 2 == 0, toList()));
         return map.get(true).size() > map.get(false).size() ? map.get(true) : map.get(false);
+    }
+
+    public static int concatNums(int[] arr) {
+        int result = 0;
+        int multiplier = 1;
+        for (int i = arr.length; i > 0; --i) {
+            int num = arr[i - 1];
+            while (num != 0) {
+                result += multiplier * (num % 10);
+                num /= 10;
+                multiplier *= 10;
+            }
+        }
+        return result;
     }
 }
