@@ -22,12 +22,10 @@ public class MainStream {
     }
 
     private static int minValue(int[] values) {
-        if (values.length < 10) {
-            int[] newArr = Arrays.stream(values).sorted().distinct().toArray();
-            return concatNums(newArr);
-        }
-        System.err.println("The number of digits cannot exceed 9.");
-        return 0;
+            return Arrays.stream(values)
+                    .sorted()
+                    .distinct()
+                    .reduce(0, (a, b) -> 10 * a + b);
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
