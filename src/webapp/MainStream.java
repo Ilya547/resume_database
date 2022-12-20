@@ -32,10 +32,6 @@ public class MainStream {
     private static List<Integer> oddOrEven(List<Integer> integers) {
         Map<Boolean, List<Integer>> map = integers.stream()
                 .collect(partitioningBy(x -> x % 2 == 0, toList()));
-        if (map.get(true).size() > map.get(false).size()) {
-            return map.get(true);
-        } else {
-            return map.get(false);
-        }
+        return map.get(true).size() > map.get(false).size() ? map.get(true) : map.get(false);
     }
 }
