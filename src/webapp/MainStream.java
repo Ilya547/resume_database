@@ -23,8 +23,8 @@ public class MainStream {
 
     private static int minValue(int[] values) {
             return Arrays.stream(values)
-                    .sorted()
                     .distinct()
+                    .sorted()
                     .reduce(0, (a, b) -> 10 * a + b);
     }
 
