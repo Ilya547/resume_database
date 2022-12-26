@@ -3,6 +3,7 @@ package webapp.storage;
 
 import org.junit.Before;
 import org.junit.Test;
+import webapp.Config;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
 import webapp.model.Resume;
@@ -14,7 +15,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("/Users/imac/IdeaProjects/basejava/storage");
+//    protected static final File STORAGE_DIR = new File("/Users/imac/IdeaProjects/basejava/storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
     static final String UUID_NOT_EXIST_OR_EXIST = "dummy";
     protected final Storage storage;
 
@@ -33,10 +35,16 @@ public abstract class AbstractStorageTest {
      private static final Resume RESUME_4;
 
     static {
-        RESUME_1 = ResumeTestData.fillResume(UUID_1, "Name1");
-        RESUME_2 = ResumeTestData.fillResume(UUID_2, "Name2");
-        RESUME_3 = ResumeTestData.fillResume(UUID_3, "Name3");
-        RESUME_4 = ResumeTestData.fillResume(UUID_4, "Name4");
+//        RESUME_1 = ResumeTestData.fillResume(UUID_1, "Name1");
+//        RESUME_2 = ResumeTestData.fillResume(UUID_2, "Name2");
+//        RESUME_3 = ResumeTestData.fillResume(UUID_3, "Name3");
+//        RESUME_4 = ResumeTestData.fillResume(UUID_4, "Name4");
+
+        //temporary solution
+        RESUME_1 = new Resume(UUID_1, "Name1");
+        RESUME_2 = new Resume(UUID_2, "Name2");
+        RESUME_3 = new Resume(UUID_3, "Name3");
+        RESUME_4 = new Resume(UUID_4, "Name4");
     }
     @Before
     public void setUp() {
