@@ -38,6 +38,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected void doSave(Resume r, File file) {
         try {
+            System.out.println("create file");
             file.createNewFile();
         } catch (IOException e) {
             throw new StorageException("File is not save", file.getName(), e);

@@ -16,7 +16,6 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
-//    protected static final File STORAGE_DIR = new File("/Users/imac/IdeaProjects/basejava/storage");
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
     static final String UUID_NOT_EXIST_OR_EXIST = "dummy";
     protected final Storage storage;
