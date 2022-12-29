@@ -20,7 +20,6 @@ public class SqlStorage implements Storage {
         sqlHelper.execute("DELETE FROM resume");
     }
 
-    //I am here!!
     @Override
     public void update(Resume r) {
         sqlHelper.transactionalExecute(conn -> {
@@ -33,9 +32,6 @@ public class SqlStorage implements Storage {
                     return null;
                 }
         );
-    }
-    public void update(Resume r) {
-        sqlHelper.transactionalExecute()
     }
 
     @Override
