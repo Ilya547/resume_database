@@ -33,15 +33,9 @@ public class SqlStorage implements Storage {
                     return null;
                 }
         );
-
-        sqlHelper.execute("UPDATE resume SET full_name = ? WHERE uuid = ?", ps -> {
-            ps.setString(1, r.getFullName());
-            ps.setString(2, r.getUuid());
-            if (ps.executeUpdate() == 0) {
-                throw new NotExistStorageException(r.getUuid());
-            }
-            return null;
-        });
+    }
+    public void update(Resume r) {
+        sqlHelper.transactionalExecute()
     }
 
     @Override
@@ -73,9 +67,7 @@ public class SqlStorage implements Storage {
                     }
                     Resume r = new Resume(uuid, rs.getString("full_name"));
                     do {
-                        String value = rs.getString("value");
-                        ContactType type = ContactType.valueOf(rs.getString("type"));
-                        r.addContact(type, value);
+                        addContact(rs, r);
                     } while (rs.next());
                     return r;
                 });
@@ -109,9 +101,7 @@ public class SqlStorage implements Storage {
                             resume = new Resume(uuid, rs.getString("full_name"));
                             map.put(uuid, resume);
                         }
-                        String value = rs.getString("value");
-                        ContactType type = ContactType.valueOf(rs.getString("type"));
-                        r.addContact(type, value);
+                        addContact(rs, r);
                     }
                     return new ArrayList<>((Collection) map.values().stream().sorted());
                 });
@@ -143,5 +133,12 @@ public class SqlStorage implements Storage {
             ps.execute();
             return null;
         });
+    }
+
+    private void addContact(ResultSet rs, Resume r) throws SQLException {
+        String value = rs.getString("value");
+        if (value != null) {
+            r.addContact(ContactType.valueOf(rs.getString("type")), value);
+        }
     }
 }
