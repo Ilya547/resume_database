@@ -8,8 +8,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Objects;
 
-import static webapp.util.DateUtil.of;
-
 public class Position implements Serializable {
     private LocalDate startDate;
     private LocalDate endDate;
@@ -43,11 +41,11 @@ public class Position implements Serializable {
     }
 
     public Position(int startYear, Month startMonth, String title, String description) {
-        this(of(startYear, startMonth), DateUtil.NOW, title, description);
+        this(DateUtil.of(startYear, startMonth), DateUtil.NOW, title, description);
     }
 
     public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
-        this(of(startYear, startMonth), of(endYear, endMonth), title, description);
+        this(DateUtil.of(startYear, startMonth), DateUtil.of(endYear, endMonth), title, description);
     }
 
     @Override

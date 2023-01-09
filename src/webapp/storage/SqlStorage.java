@@ -1,9 +1,9 @@
 package webapp.storage;
 
 import webapp.exception.NotExistStorageException;
-import webapp.model.ContactType;
 import webapp.model.Resume;
 import webapp.sql.SqlHelper;
+import webapp.model.ContactType;
 
 import java.sql.*;
 import java.util.*;
@@ -23,15 +23,17 @@ public class SqlStorage implements Storage {
     @Override
     public void update(Resume r) {
         sqlHelper.transactionalExecute(conn -> {
-                    try (PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
-                        ps.setString(1, r.getFullName());
-                        ps.setString(2, r.getUuid());
-                    }
-                    deleteContact(conn, r);
-                    insertContact(conn, r);
-                    return null;
+            try (PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
+                ps.setString(1, r.getFullName());
+                ps.setString(2, r.getUuid());
+                if (ps.executeUpdate() != 1) {
+                    throw new NotExistStorageException(r.getUuid());
                 }
-        );
+            }
+            deleteContact(conn, r);
+            insertContact(conn, r);
+            return null;
+        });
     }
 
     @Override
