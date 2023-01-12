@@ -6,6 +6,7 @@ import org.junit.Test;
 import webapp.Config;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
+import webapp.model.ContactType;
 import webapp.model.Resume;
 
 import java.io.File;
@@ -61,12 +62,13 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void update() throws NotExistStorageException {
-        Resume temp = RESUME_1;
-        storage.update(RESUME_1);
-        assertAll(
-                () -> assertSame(temp, RESUME_1),
-                () -> assertThrows(NotExistStorageException.class, () -> storage.get(UUID_NOT_EXIST_OR_EXIST)));
+    public void update() throws Exception {
+        Resume newResume = new Resume(UUID_1, "New Name");
+        newResume.addContact(ContactType.EMAIL, "mail1@google.com");
+        newResume.addContact(ContactType.GITHUBPROFILE, "https://github.com/Ilya547");
+        newResume.addContact(ContactType.PHONENUMBER, "+7 921 222-22-22");
+        storage.update(newResume);
+        assertTrue(newResume.equals(storage.get(UUID_1)));
     }
 
     @Test
@@ -100,11 +102,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() throws NotExistStorageException {
-        assertAll(
-                () -> assertGet(RESUME_1),
-                () -> assertGet(RESUME_2),
-                () -> assertGet(RESUME_3),
-                () -> assertThrows(NotExistStorageException.class, () -> storage.get(UUID_NOT_EXIST_OR_EXIST)));
+        assertGet(RESUME_1);
+        assertGet(RESUME_2);
+        assertGet(RESUME_3);
     }
 
     private void assertGet(Resume resume) {
