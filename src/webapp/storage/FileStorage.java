@@ -2,7 +2,7 @@ package webapp.storage;
 
 import webapp.exception.StorageException;
 import webapp.model.Resume;
-import webapp.storage.Serialization.SerializationStrategy;
+import webapp.Serialization.SerializationStrategy;
 
 import java.io.*;
 import java.util.ArrayList;

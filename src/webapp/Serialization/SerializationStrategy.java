@@ -1,4 +1,4 @@
-package webapp.storage.Serialization;
+package webapp.Serialization;
 
 import webapp.model.Resume;
 

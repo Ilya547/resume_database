@@ -1,6 +1,6 @@
 package webapp.storage;
 
-import webapp.storage.Serialization.XmlStreamSerializer;
+import webapp.Serialization.XmlStreamSerializer;
 
 public class XmlPathStorageTest extends AbstractStorageTest {
     public XmlPathStorageTest() {

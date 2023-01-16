@@ -1,6 +1,6 @@
 package webapp.storage;
 
-import webapp.storage.Serialization.ObjectStreamSerialization;
+import webapp.Serialization.ObjectStreamSerialization;
 
 public class ObjectPathStorageTest extends AbstractStorageTest{
     public ObjectPathStorageTest() {
