@@ -1,22 +1,27 @@
 package webapp.web;
 
+import webapp.Config;
+import webapp.storage.Storage;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class New extends HttpServlet {
+    private Storage storage; // = Config.get().getStorage();
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter pw = response.getWriter();
-        pw.println("<html>");
-        pw.println("<h1> YES!! </h1>");
-        pw.println("</html>");
-
-
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        storage = Config.get().getStorage();
+    }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/jsp/new.jsp").forward(request, response);
     }
 
     @Override
