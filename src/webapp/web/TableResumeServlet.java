@@ -1,7 +1,7 @@
 package webapp.web;
 
 
-import webapp.Config;
+import webapp.main.Config;
 import webapp.model.Resume;
 import webapp.storage.Storage;
 
@@ -51,5 +51,6 @@ public class TableResumeServlet extends HttpServlet {
         pw.println("</table>\n" +
                 "</body>");
         pw.println("</html>");
+        pw.close();
     }
 }

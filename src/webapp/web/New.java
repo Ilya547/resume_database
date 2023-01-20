@@ -1,6 +1,6 @@
 package webapp.web;
 
-import webapp.Config;
+import webapp.main.Config;
 import webapp.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class New extends HttpServlet {
-    private Storage storage; // = Config.get().getStorage();
+    private Storage storage = Config.get().getStorage();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -21,6 +21,7 @@ public class New extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("resumes", storage.getAllSorted());
         request.getRequestDispatcher("/WEB-INF/jsp/new.jsp").forward(request, response);
     }
 

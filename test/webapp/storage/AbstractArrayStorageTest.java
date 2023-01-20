@@ -1,11 +1,10 @@
 package webapp.storage;
 
 
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import webapp.exception.StorageException;
 import webapp.model.Resume;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
@@ -13,12 +12,15 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         super(storage);
     }
 
-    @Test
+    @Test(expected = StorageException.class)
     public void saveOverflow() {
-        storage.clear();
-        for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-            storage.save(new Resume("Name"));
+        try {
+            for (int i = 4; i <= AbstractArrayStorage.STORAGE_LIMIT; i++) {
+                storage.save(new Resume("Name" + i));
+            }
+        } catch (StorageException e) {
+            Assert.fail();
         }
-        assertThrows(StorageException.class, () -> storage.get(UUID_NOT_EXIST_OR_EXIST));
+        storage.save(new Resume("Overflow"));
     }
 }

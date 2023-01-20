@@ -13,6 +13,7 @@ public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
     private final List<Position> periods = new ArrayList<>();
     private Link homePage;
+    public static final Organization EMPTY = new Organization("", "", Position.EMPTY);
 
     public Organization(Link homePage, List<Position> periods) {
         this.homePage = homePage;

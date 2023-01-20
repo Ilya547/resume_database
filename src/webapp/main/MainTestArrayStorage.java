@@ -1,4 +1,4 @@
-package webapp;
+package webapp.main;
 
 import webapp.model.Resume;
 import webapp.storage.ArrayStorage;

@@ -1,4 +1,4 @@
-package webapp;
+package webapp.main;
 
 import webapp.storage.SqlStorage;
 import webapp.storage.Storage;

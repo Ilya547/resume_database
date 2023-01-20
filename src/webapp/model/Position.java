@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Position implements Serializable {
     private LocalDate startDate;
     private LocalDate endDate;
+    public static final Position EMPTY = new Position();
 
     public String getTitle() {
         return title;

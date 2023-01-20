@@ -1,18 +1,49 @@
 package webapp.model;
 
 public enum ContactType {
-    PHONENUMBER("Тел.:"),
-    EMAIL("Почта"),
-    LINKEDINPROFILE("Профиль LinkedIn"),
-    GITHUBPROFILE("Профиль GitHub");
+    PHONENUMBER("Тел."),
+    EMAIL("Почта") {
+        @Override
+        public String toHtml0(String value) {
+            return getTitle() + ": " + toLink("mailto" + value, value);
+        }
+    },
+    LINKEDINPROFILE("Профиль LinkedIn") {
+        @Override
+        public String toHtml0(String value) {
+            return getTitle() + ": " + toLink("LinkedIn:" + value, value);
+        }
+    },
+    GITHUBPROFILE("Профиль GitHub") {
+        @Override
+        public String toHtml0(String value) {
+            return getTitle() + ": " + toLink("GitHub:" + value, value);
+        }
+    };
 
-    private String subtitle;
+    private String title;
 
-    ContactType(String subtitle) {
-        this.subtitle = subtitle;
+    ContactType(String title) {
+        this.title = title;
     }
 
-    public String getSubtitle() {
-        return subtitle;
+    public String getTitle() {
+        return title;
+    }
+
+    protected String toHtml0(String value) {
+        return title + ": " + value;
+    }
+
+    public String toHtml(String value) {
+        return (value == null) ? "" : toHtml0(value);
+    }
+
+    public String toLink(String href) {
+        return toLink(href, title);
+    }
+
+    public static String toLink(String href, String title) {
+        return "<a href='" + href + "'>" + title + "</a>";
     }
 }

@@ -3,7 +3,7 @@ package webapp.storage;
 
 import org.junit.Before;
 import org.junit.Test;
-import webapp.Config;
+import webapp.main.Config;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
 import webapp.model.ContactType;
@@ -14,8 +14,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertTrue;
 import static webapp.storage.TestData.*;
 
 public abstract class AbstractStorageTest {
@@ -27,22 +29,6 @@ public abstract class AbstractStorageTest {
         this.storage = storage;
     }
 
-//    private static final String UUID_1 = UUID.randomUUID().toString();
-//    private static final String UUID_2 = UUID.randomUUID().toString();
-//    private static final String UUID_3 = UUID.randomUUID().toString();
-//    private static final String UUID_4 = UUID.randomUUID().toString();
-//
-//    private static final Resume R1;
-//    private static final Resume R2;
-//    private static final Resume R3;
-//    private static final Resume R4;
-//
-//    static {
-//        R1 = TestData.fillResume(UUID_1, "Name1");
-//        R2 = TestData.fillResume(UUID_2, "Name2");
-//        R3 = TestData.fillResume(UUID_3, "Name3");
-//        R4 = TestData.fillResume(UUID_4, "Name4");
-//    }
     @Before
     public void setUp() {
         storage.clear();
@@ -73,14 +59,6 @@ public abstract class AbstractStorageTest {
         assertSize(4);
         assertGet(R4);
     }
-
-//    @Test
-//    public void delete() throws NotExistStorageException {
-//        storage.delete(UUID_1);
-//        assertAll(
-//                () -> assertSize(2),
-//                () -> assertThrows(NotExistStorageException.class, () -> storage.get(UUID_1)));
-//    }
 
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {

@@ -1,4 +1,4 @@
-package webapp;
+package webapp.main;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
