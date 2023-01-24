@@ -18,8 +18,8 @@ public class Resume implements Comparable<Resume>, Serializable {
     public static final Resume EMPTY = new Resume();
 
     static {
-        EMPTY.setSection(SectionType.PERSONAL, TextSection.EMPTY);
         EMPTY.setSection(SectionType.OBJECTIVE, TextSection.EMPTY);
+        EMPTY.setSection(SectionType.PERSONAL, TextSection.EMPTY);
         EMPTY.setSection(SectionType.ACHIEVEMENT, ListSection.EMPTY);
         EMPTY.setSection(SectionType.QUALIFICATION, ListSection.EMPTY);
         EMPTY.setSection(SectionType.EXPERIENCE, new OrganizationSection(Organization.EMPTY));
@@ -33,6 +33,8 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     public Resume(String uuid, String fullName) {
+        Objects.requireNonNull(uuid, "uuid must not be null");
+        Objects.requireNonNull(fullName, "fullName must not be null");
         this.uuid = uuid;
         this.fullName = fullName;
     }
@@ -55,18 +57,7 @@ public class Resume implements Comparable<Resume>, Serializable {
     public Map<SectionType, AbstractSection> getSections() {
         return sections;
     }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public void addContact(ContactType type, String value) {
-        contacts.put(type, value);
-    }
-
-    public void addSection(SectionType type, AbstractSection section) {
-        sections.put(type, section);
-    }
+    
 
     public String getContact(ContactType type) {
         return contacts.get(type);
@@ -82,6 +73,10 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     public void setSection(SectionType type, AbstractSection section) {
         sections.put(type, section);
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     @Override
@@ -100,14 +95,12 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     @Override
     public String toString() {
-        return "Resume{" +
-                "uuid='" + uuid + '\'' +
-                ", fullName='" + fullName + '\'' +
-                '}';
+        return uuid + '(' + fullName + ')';
     }
 
     @Override
     public int compareTo(Resume o) {
-        return 0;
+        int cmp = fullName.compareTo(o.fullName);
+        return cmp != 0 ? cmp : uuid.compareTo(o.uuid);
     }
 }

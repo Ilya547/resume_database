@@ -28,87 +28,33 @@ public  class TestData extends AbstractStorageTest {
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
 
-        R1.addContact(ContactType.EMAIL, "mail1@ya.ru");
-        R1.addContact(ContactType.PHONENUMBER, "11111");
+        R1.setContact(ContactType.EMAIL, "mail1@ya.ru");
+        R1.setContact(ContactType.PHONENUMBER, "11111");
 
-        R4.addContact(ContactType.PHONENUMBER, "44444");
-        R4.addContact(ContactType.LINKEDINPROFILE, "LINKEDINPROFILE");
+        R4.setContact(ContactType.PHONENUMBER, "44444");
+        R4.setContact(ContactType.LINKEDINPROFILE, "LINKEDINPROFILE");
 
-        R1.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
-        R1.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
-        R1.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
-        R1.addSection(SectionType.QUALIFICATION, new ListSection("Java", "SQL", "JavaScript"));
-        R1.addSection(SectionType.EXPERIENCE,
+        R1.setSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
+        R1.setSection(SectionType.PERSONAL, new TextSection("Personal data"));
+        R1.setSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
+        R1.setSection(SectionType.QUALIFICATION, new ListSection("Java", "SQL", "JavaScript"));
+        R1.setSection(SectionType.EXPERIENCE,
                 new OrganizationSection(
                         new Organization("Organization11", "http://Organization11.ru",
-                                new Position(2005, Month.JANUARY, "position1", "content1"),
-                                new Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
-        R1.addSection(SectionType.EXPERIENCE,
+                                new Organization.Position(2005, Month.JANUARY, "position1", "content1"),
+                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
+        R1.setSection(SectionType.EXPERIENCE,
                 new OrganizationSection(
                         new Organization("Organization2", "http://Organization2.ru",
-                                new Position(2015, Month.JANUARY, "position1", "content1"))));
-        R1.addSection(SectionType.EDUCATION,
+                                new Organization.Position(2015, Month.JANUARY, "position1", "content1"))));
+        R1.setSection(SectionType.EDUCATION,
                 new OrganizationSection(
                         new Organization("Institute", null,
-                                new Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
-                                new Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT facultet")),
+                                new Organization.Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
+                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT facultet")),
                         new Organization("Organization12", "http://Organization12.ru")));
 
-        R2.addContact(ContactType.LINKEDINPROFILE, "LINKEDINPROFILE2");
-        R2.addContact(ContactType.PHONENUMBER, "22222");
-//public static Resume fillResume(String uuid, String fullName) {
-//        Resume RESUME = new Resume(uuid, fullName);
-//
-//        RESUME.addContact(ContactType.EMAIL, "mail1@ya.ru");
-//        RESUME.addContact(ContactType.PHONENUMBER, "11111");
-//        RESUME.addContact(ContactType.GITHUBPROFILE, "\"https://github.com/Ilya1\"");
-//
-//        RESUME.addSection(SectionType.OBJECTIVE, new TextSection("Objective1"));
-//        RESUME.addSection(SectionType.PERSONAL, new TextSection("Personal data"));
-//        RESUME.addSection(SectionType.ACHIEVEMENT, new ListSection("Achivment11", "Achivment12", "Achivment13"));
-//        RESUME.addSection(SectionType.QUALIFICATION, new ListSection("Java", "SQL", "JavaScript"));
-//        RESUME.addSection(SectionType.EXPERIENCE,
-//                new OrganizationSection(
-//                        new Organization("Organization11", "http://Organization11.ru",
-//                                new Position(2005, Month.JANUARY, "position1", "content1"),
-//                                new Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
-//        RESUME.addSection(SectionType.EDUCATION,
-//                new OrganizationSection(
-//                        new Organization("Institute", null,
-//                                new Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
-//                                new Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT facultet")),
-//                        new Organization("Organization12", "http://Organization12.ru")));
-//        RESUME.addSection(SectionType.EXPERIENCE,
-//                new OrganizationSection(
-//                        new Organization("Organization2", "http://Organization2.ru",
-//                                new Position(2015, Month.JANUARY, "position1", "content1"))));
-//        return RESUME;
+        R2.setContact(ContactType.LINKEDINPROFILE, "LINKEDINPROFILE2");
+        R2.setContact(ContactType.PHONENUMBER, "22222");
     }
-
-
-
-
-
-
-
-
-
-//    public void fill(String uuid, String fullName) {
-//
-//        RESUME.addContact(ContactType.PHONENUMBER, "89063477954");
-//        RESUME.addContact(ContactType.EMAIL, "ilya547@bk.ru");
-//        RESUME.addContact(ContactType.LINKEDINPROFILE, "LINKEDINPROFILE_Ilya");
-//        RESUME.addContact(ContactType.GITHUBPROFILE, "https://github.com/Ilya547");
-//        RESUME.addSection(SectionType.PERSONAL, new TextSection("Personal"));
-//        RESUME.addSection(SectionType.OBJECTIVE, new TextSection("Objective"));
-//        List<String> achievementList = new ArrayList<>();
-//        RESUME.addSection(SectionType.ACHIEVEMENT, new ListSection(achievementList));
-//        List<String> qualificationList = new ArrayList<>();
-//        RESUME.addSection(SectionType.QUALIFICATION, new ListSection(qualificationList));
-//        Period[] periodArr = new Period[0];
-//        RESUME.addSection(SectionType.EXPERIENCE, new OrganizationSection(
-//                new Organization("Organization", "url", periodArr)));
-//        RESUME.addSection(SectionType.EDUCATION, new OrganizationSection(
-//                new Organization("OrganizationName", "url", periodArr)));
-//    }
 }

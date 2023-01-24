@@ -20,8 +20,9 @@ public class DataStreamSerializer implements SerializationStrategy {
             Map<ContactType, String> contacts = r.getContacts();
             writeCollection(dos, contacts.entrySet(), entry -> {
                 dos.writeUTF(entry.getKey().name());
-                dos.writeUTF(entry.getValue().toString());
+                dos.writeUTF(entry.getValue());
             });
+
             writeCollection(dos, r.getSections().entrySet(), entry -> {
                 SectionType type = entry.getKey();
                 AbstractSection section = entry.getValue();
@@ -33,20 +34,20 @@ public class DataStreamSerializer implements SerializationStrategy {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATION:
-                        writeCollection(dos,((ListSection) section).getItems(), dos::writeUTF);
+                        writeCollection(dos, ((ListSection) section).getItems(), dos::writeUTF);
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
                         writeCollection(dos, ((OrganizationSection) section).getOrganizations(), org -> {
                             dos.writeUTF(org.getHomePage().getName());
                             dos.writeUTF(org.getHomePage().getUrl());
-                            writeCollection(dos, org.getPERIODS(), position -> {
+                            writeCollection(dos, org.getPositions(), position -> {
                                 writeLocalDate(dos, position.getStartDate());
                                 writeLocalDate(dos, position.getEndDate());
                                 dos.writeUTF(position.getTitle());
                                 dos.writeUTF(position.getDescription());
                             });
-                            });
+                        });
                         break;
                 }
             });
@@ -64,10 +65,10 @@ public class DataStreamSerializer implements SerializationStrategy {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            readItems(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readItems(dis, () -> resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
             readItems(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
-                resume.addSection(sectionType, readSection(dis, sectionType));
+                resume.setSection(sectionType, readSection(dis, sectionType));
             });
             return resume;
 
@@ -87,7 +88,7 @@ public class DataStreamSerializer implements SerializationStrategy {
                 return new OrganizationSection(
                         readList(dis, () -> new Organization(
                                 new Link(dis.readUTF(), dis.readUTF()),
-                                readList(dis, () -> new Position(
+                                readList(dis, () -> new Organization.Position(
                                         readLocalDate(dis), readLocalDate(dis), dis.readUTF(), dis.readUTF()
                                 ))
                         )));
@@ -116,7 +117,6 @@ public class DataStreamSerializer implements SerializationStrategy {
     private interface ElementReader<T> {
         T read() throws IOException;
     }
-
 
     private interface ElementProcessor {
         void process() throws IOException;

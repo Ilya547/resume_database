@@ -28,15 +28,6 @@ public class SqlStorage implements Storage {
         sqlHelper.execute("DELETE FROM resume");
     }
 
-//    public Resume add() {
-//        return sqlHelper.execute("INSERT INTO resume (uuid, full_name) VALUES (?,?)", ps -> {
-//            Resume newResume = new Resume();
-//            ps.setString(1, newResume.getUuid());
-//            ps.setString(2, newResume.getFullName());
-//            return newResume;
-//        });
-//    }
-
     @Override
     public void update(Resume r) {
         sqlHelper.transactionalExecute(conn -> {
@@ -166,18 +157,14 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void deleteContacts(Connection conn, Resume r) {
-        sqlHelper.execute("DELETE FROM contact WHERE resume_uuid=?", ps -> {
-            ps.setString(1, r.getUuid());
-            ps.execute();
-            return null;
-        });
+    private void deleteContacts(Connection conn, Resume r) throws SQLException {
+        deleteAttributes(conn, r, "DELETE  FROM contact WHERE resume_uuid=?");
     }
 
     private void addContact(ResultSet rs, Resume r) throws SQLException {
         String value = rs.getString("value");
         if (value != null) {
-            r.addContact(ContactType.valueOf(rs.getString("type")), value);
+            r.setContact(ContactType.valueOf(rs.getString("type")), value);
         }
     }
 
@@ -185,7 +172,7 @@ public class SqlStorage implements Storage {
         String content = rs.getString("content");
         if (content != null) {
             SectionType type = SectionType.valueOf(rs.getString("type"));
-            r.addSection(type, JsonParser.read(content, AbstractSection.class));
+            r.setSection(type, JsonParser.read(content, AbstractSection.class));
         }
     }
 
@@ -202,11 +189,14 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void deleteSections(Connection conn, Resume r) {
-        sqlHelper.execute("DELETE FROM section WHERE resume_uuid=?", ps -> {
+    private void deleteSections(Connection conn, Resume r) throws SQLException {
+        deleteAttributes(conn, r, "DELETE  FROM section WHERE resume_uuid=?");
+    }
+
+    private void deleteAttributes(Connection conn, Resume r, String sql) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, r.getUuid());
             ps.execute();
-            return null;
-        });
+        }
     }
 }

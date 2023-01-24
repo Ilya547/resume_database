@@ -46,9 +46,9 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() throws Exception {
         Resume newResume = new Resume(UUID_1, "New Name");
-        newResume.addContact(ContactType.EMAIL, "mail1@google.com");
-        newResume.addContact(ContactType.GITHUBPROFILE, "https://github.com/Ilya547");
-        newResume.addContact(ContactType.PHONENUMBER, "+7 921 222-22-22");
+        newResume.setContact(ContactType.EMAIL, "mail1@google.com");
+        newResume.setContact(ContactType.GITHUBPROFILE, "https://github.com/Ilya547");
+        newResume.setContact(ContactType.PHONENUMBER, "+7 921 222-22-22");
         storage.update(newResume);
         assertTrue(newResume.equals(storage.get(UUID_1)));
     }

@@ -12,6 +12,7 @@ public class TestSingleton {
         return instance;
     }
 
+
     private TestSingleton() {
     }
 

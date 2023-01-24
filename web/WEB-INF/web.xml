@@ -13,23 +13,4 @@
         <url-pattern>/resume</url-pattern>
     </servlet-mapping>
 
-
-    <servlet>
-        <servlet-name>New</servlet-name>
-        <servlet-class>webapp.web.New</servlet-class>
-    </servlet>
-        <servlet-mapping>
-                <servlet-name>New</servlet-name>
-                <url-pattern>/new</url-pattern>
-        </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TableResumeServlet</servlet-name>
-        <servlet-class>webapp.web.TableResumeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TableResumeServlet</servlet-name>
-        <url-pattern>/table</url-pattern>
-    </servlet-mapping>
-
 </web-app>

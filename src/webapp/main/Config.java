@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 public class Config {
 
@@ -17,6 +19,10 @@ public class Config {
     private final File storageDir;
     private final Storage storage;
 
+    private Set<String> immutableUuids = new HashSet<String>() {{
+        add("11111111-1111-1111-1111-111111111111");
+        add("22222222-2222-2222-2222-222222222222");
+    }};
 
     private Config() {
         try (InputStream is = new FileInputStream(PROPS)) {
@@ -48,6 +54,15 @@ public class Config {
             throw new IllegalStateException(homeDir + " is not directory");
         }
         return homeDir;
+    }
+
+    public boolean isImmutable(String uuids) {
+        return immutableUuids.contains(uuids);
+    }
+
+    public void checkImmutable(String uuids) {
+        if (immutableUuids.contains(uuids))
+            throw new RuntimeException("Зарезервированные резюме нельзя менять");
     }
 
 }
