@@ -1,16 +1,16 @@
 <%@ page import="webapp.model.*" %>
 <%@ page import="webapp.util.HtmlUtil" %>
-<%@ page import="webapp.main.Config" %>
+<%@ page import="webapp.Config" %>
 <%@ page import="webapp.util.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/theme/${theme}.css">
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/edit-resume-styles.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <jsp:useBean id="resume" type="webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
@@ -23,7 +23,8 @@
     <div class="scrollable-panel">
         <div class="form-wrapper">
             <div class="section">ФИО</div>
-            <input class="field" type="text" name="fullName" size=55 placeholder="ФИО" value="${resume.fullName}" required>
+            <input class="field" type="text" name="fullName" size=55 placeholder="ФИО" value="${resume.fullName}"
+                   required>
 
             <div class="section">Контакты</div>
 
@@ -45,10 +46,12 @@
                         <textarea class="field" name='${type}'><%=section%></textarea>
                     </c:when>
                     <c:when test="${type=='QUALIFICATION' || type=='ACHIEVEMENT'}">
-                        <textarea class="field" name='${type}'><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
+                        <textarea class="field"
+                                  name='${type}'><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
                     </c:when>
                     <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
-                        <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>" varStatus="counter">
+                        <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>"
+                                   varStatus="counter">
                             <c:choose>
                                 <c:when test="${counter.index == 0}">
                                 </c:when>
@@ -57,12 +60,14 @@
                                 </c:otherwise>
                             </c:choose>
 
-<%--                                                        <button class="green-button">Добавить</button>--%>
+                            <%--                                                        <button class="green-button">Добавить</button>--%>
 
-                            <input class="field" type="text" placeholder="Название" name='${type}' size=100 value="${org.homePage.name}">
-                            <input class="field" type="text" placeholder="Ссылка" name='${type}url' size=100 value="${org.homePage.url}">
+                            <input class="field" type="text" placeholder="Название" name='${type}' size=100
+                                   value="${org.homePage.name}">
+                            <input class="field" type="text" placeholder="Ссылка" name='${type}url' size=100
+                                   value="${org.homePage.url}">
 
-<%--                                                        <button class="small-green-button">Добавить должность</button>--%>
+                            <%--                                                        <button class="small-green-button">Добавить должность</button>--%>
 
                             <c:forEach var="pos" items="${org.positions}">
                                 <jsp:useBean id="pos" type="webapp.model.Organization.Position"/>
@@ -81,7 +86,8 @@
                                 <input class="field" type="text" placeholder="Заголовок"
                                        name='${type}${counter.index}title' size=75
                                        value="${pos.title}">
-                                <textarea class="field" placeholder="Описание" name="${type}${counter.index}description">${pos.description}</textarea>
+                                <textarea class="field" placeholder="Описание"
+                                          name="${type}${counter.index}description">${pos.description}</textarea>
 
                             </c:forEach>
                         </c:forEach>
@@ -102,54 +108,5 @@
     </div>
 </form>
 <jsp:include page="fragments/footer.jsp"/>
-<%--<div class="footer">--%>
-<%--    <a class="footer-text-anchor" href="http://javaops.ru/reg/basejava">--%>
-<%--        <div>Проект: разработка web-приложения «База данных резюме»</div>--%>
-<%--    </a>--%>
-<%--</div>--%>
 </body>
-<%--<jsp:include page="fragments/footer.jsp"/>--%>
 </html>
-<%--&lt;%&ndash;<jsp:include page="WEB-INF/jsp/fragments/header.jsp"/>&ndash;%&gt;--%>
-<%--<section>--%>
-<%--    <form method="post" action="resume" enctype="application/x-www-form-urlencoded">--%>
-<%--        <input type="hidden" name="uuid" value="${resume.uuid}">--%>
-<%--        <input type="hidden" name="theme" value="${theme}">--%>
-<%--        <dl>--%>
-<%--            <dt>Имя:</dt>--%>
-<%--            <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>--%>
-<%--        </dl>--%>
-<%--        <h3>Контакты:</h3>--%>
-<%--        &lt;%&ndash;         ContactType.values это все типы которые есть в контакт тайп&ndash;%&gt;--%>
-<%--        <c:forEach var="type" items="<%=ContactType.values()%>">--%>
-<%--            <dl>--%>
-<%--                <dt>${type.title}</dt>--%>
-<%--                <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}"></dd>--%>
-<%--            </dl>--%>
-<%--        </c:forEach>--%>
-<%--        <h3>Секции:</h3>--%>
-<%--        <c:forEach var="type" items="<%=SectionType.values()%>">--%>
-<%--            <br>${type.title.toUpperCase()}:--%>
-<%--            <c:set var="section" value="${resume.getSection(type)}"/>--%>
-<%--            <c:choose>--%>
-<%--            <c:when test="${type eq 'PERSONAL' || type eq 'OBJECTIVE'}">--%>
-<%--                <br>--%>
-<%--                <c:set var="textSection" value="${section}"/>--%>
-<%--                <jsp:useBean id="textSection" class="webapp.model.TextSection"/>--%>
-<%--&lt;%&ndash;                <input type="text" name="${type.name()}" size=120 value="${textSection.data}"><br/>&ndash;%&gt;--%>
-<%--            </c:when>--%>
-<%--            </c:choose>--%>
-<%--            <dt>${type.title}</dt>--%>
-<%--            <input type="text" name="${type.title}" size=30 value="${resume.getSection(type)}"><br/>--%>
-<%--&lt;%&ndash;            <%=sectionEntry.getKey().toHtml(contactEntry.getValue())%><br/>&ndash;%&gt;--%>
-
-<%--        </c:forEach>--%>
-<%--        <hr>--%>
-
-<%--        <button type="submit">Сохранить</button>--%>
-<%--        <button onclick="window.history.back()">Отменить</button>--%>
-<%--    </form>--%>
-<%--</section>--%>
-<%--<jsp:include page="fragments/footer.jsp"/>--%>
-<%--</body>--%>
-<%--</html>--%>

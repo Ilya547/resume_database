@@ -3,7 +3,7 @@ package webapp.storage;
 
 import org.junit.Before;
 import org.junit.Test;
-import webapp.main.Config;
+import webapp.Config;
 import webapp.exception.ExistStorageException;
 import webapp.exception.NotExistStorageException;
 import webapp.model.ContactType;

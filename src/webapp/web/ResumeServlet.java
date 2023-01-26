@@ -1,6 +1,6 @@
 package webapp.web;
 
-import webapp.main.Config;
+import webapp.Config;
 import webapp.model.*;
 import webapp.storage.Storage;
 import webapp.util.DateUtil;
@@ -22,7 +22,8 @@ public class ResumeServlet extends HttpServlet {
     private enum THEME {
         dark, light, purple
     }
-    private Storage storage; // = Config.get().getStorage();
+
+    private Storage storage;
     private final Set<String> themes = new HashSet<>();
 
     @Override
@@ -33,6 +34,7 @@ public class ResumeServlet extends HttpServlet {
             themes.add(t.name());
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uuid = request.getParameter("uuid");
@@ -99,25 +101,6 @@ public class ResumeServlet extends HttpServlet {
         request.getRequestDispatcher(
                 ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
         ).forward(request, response);
-//        switch (action) {
-//            case "delete":
-//                storage.delete(uuid);
-//                response.sendRedirect("resume");
-//                return;
-//            case "add":
-//                r = Resume.EMPTY;
-//                break;
-//            case "view":
-//            case "edit":
-//                r = storage.get(uuid);
-//                break;
-//            default:
-//                throw new IllegalArgumentException("Action " + action + " is illegal");
-//        }
-//        request.setAttribute("resume", r);
-//        request.getRequestDispatcher(
-//                ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
-//        ).forward(request, response);
     }
 
     @Override
@@ -191,7 +174,6 @@ public class ResumeServlet extends HttpServlet {
             storage.update(r);
         }
         response.sendRedirect("resume?theme=" + getTheme(request));
-
     }
 
     private Object getTheme(HttpServletRequest request) {

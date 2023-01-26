@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="webapp.model.*" %>
-<%@ page import="webapp.main.Config" %>
+<%@ page import="webapp.Config" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -28,7 +28,6 @@
 
 <jsp:include page="fragments/header.jsp"/>
 
-
 <div class="scrollable-panel">
     <div class="table-wrapper">
         <div class="add-resume">
@@ -55,7 +54,9 @@
                                href="resume?uuid=${resume.uuid}&action=view&theme=${theme}">${resume.fullName}</a>
                         </td>
                         <td class="info-column">
+<%--                            contactEntry.getKey().toHtml(contactEntry.getValue()--%>
                             <%=ContactType.EMAIL.toLink(resume.getContact(ContactType.EMAIL))%>
+<%--                            <%=ContactType.EMAIL.toHtml(ContactType.EMAIL.toString())%>--%>
                         </td>
                         <td class="img-column">
                             <a class="no-underline-anchor" href="resume?uuid=${resume.uuid}&action=edit&theme=${theme}">
@@ -64,7 +65,8 @@
                         </td>
                         <td class="img-column">
                             <c:if test="<%=!Config.get().isImmutable(resume.getUuid())%>">
-                                <a class="no-underline-anchor" href="resume?uuid=${resume.uuid}&action=delete&theme=${theme}">
+                                <a class="no-underline-anchor"
+                                   href="resume?uuid=${resume.uuid}&action=delete&theme=${theme}">
                                     <img src="img/${theme}/remove.svg" alt="">
                                 </a>
                             </c:if>
@@ -74,15 +76,6 @@
             </table>
         </div>
     </div>
-</div>
-<%--<div class="footer">--%>
     <jsp:include page="fragments/footer.jsp"/>
-<%--</div>--%>
-
-<%--<div class="footer">--%>
-<%--    <a class="footer-text-anchor" href="http://javaops.ru/reg/basejava">--%>
-<%--        <div>Проект: разработка web-приложения «База данных резюме»</div>--%>
-<%--    </a>--%>
-<%--</div>--%>
 </body>
 </html>
