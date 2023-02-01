@@ -1,6 +1,7 @@
 package webapp.web;
 
-import webapp.main.Config;
+
+import webapp.Config;
 import webapp.storage.Storage;
 
 import javax.servlet.ServletConfig;

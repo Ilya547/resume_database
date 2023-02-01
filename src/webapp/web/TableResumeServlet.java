@@ -1,7 +1,8 @@
 package webapp.web;
 
 
-import webapp.main.Config;
+
+import webapp.Config;
 import webapp.model.Resume;
 import webapp.storage.Storage;
 
